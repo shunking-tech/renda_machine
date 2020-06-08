@@ -13,6 +13,10 @@ class Play extends StatefulWidget {
 }
 
 class _PlayState extends State<Play> {
+  var isStart = false;   // スタートしているか判断
+  var record = 0;        // タップした回数
+  var canTap = true;     // タップを許可するか判断
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,20 +76,8 @@ class _PlayState extends State<Play> {
                 ),
               ),
 
-              // 案内
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      "Press any\nbutton to start",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 40
-                      ),
-                    ),
-                  )
-                ],
-              ),
+              // 最初は案内　タップし始めたら回数　を表示
+              guideOrRecord(),
 
               // タップ部分
               Container(
@@ -117,8 +109,18 @@ class _PlayState extends State<Play> {
           border: Border.all(color: Colors.red),
         ),
         child: ListTile(
+          enabled: canTap,
           onTap: () {
-            _startTimer();
+            //1回目のタップでのみタイマーをスタートさせる
+            if (!isStart) {
+              _startTimer();
+            }
+
+            setState(() {
+              record += 1;
+            });
+
+            isStart = true;  // スタートしたことを知らせる
           },
         ),
       )
@@ -137,6 +139,40 @@ class _PlayState extends State<Play> {
     );
   }
 
+  // 最初は案内　タップし始めたら回数　を表示する箇所
+  Widget guideOrRecord() {
+
+    if (isStart) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              record.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 40
+              ),
+            ),
+          )
+        ],
+      );
+    } else {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "Press any\nbutton to start",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 40
+              ),
+            ),
+          )
+        ],
+      );
+    }
+  }
+
 //  いづれかのボタンを押した時にタイマー開始
   _startTimer() {
     Timer.periodic(
@@ -144,8 +180,10 @@ class _PlayState extends State<Play> {
             (Timer t) => setState(() {
               widget.time -= 0.01;
 
+              // タイマーが０になったら
               if (widget.time <= 0) {
-                t.cancel();
+                t.cancel();       // タイマー止める
+                canTap = false;   // タップできなくする
               }
         })
     );
