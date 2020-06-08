@@ -8,7 +8,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var time = 00.00;
+  var time = 00.00;   // play.dartに渡す用の変数
+  TextEditingController _ctrName = TextEditingController();    // 名前の入力フォームのコントローラー
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +59,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         children: <Widget>[
                           Expanded(
-                              child: TextFormField()
+                              child: TextFormField(
+                                controller: _ctrName,
+                              )
                           ),
                           FlatButton(
+                            onPressed: () {
+                              print(_ctrName.text);
+                            },
                             child: Text("ok"),
                           )
                         ],
