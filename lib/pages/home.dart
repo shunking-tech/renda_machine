@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:renda_machine/pages/play.dart';
+import 'package:renda_machine/util/shere_pref.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -64,8 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               )
                           ),
                           FlatButton(
-                            onPressed: () {
-                              print(_ctrName.text);
+                            onPressed: () async {
+                              await SharePrefs().setName(name: _ctrName.text);
+                              await SharePrefs().getName();
                             },
                             child: Text("ok"),
                           )
