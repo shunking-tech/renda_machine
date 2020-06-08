@@ -8,6 +8,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var time = 00.00;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
                 child: Row(
                   children: <Widget>[
-                    menuItem(time: "10s"),
-                    menuItem(time: "60s"),
-                    menuItem(time: "ENDRESS"),
+                    menuItem(menu: "10s"),
+                    menuItem(menu: "60s"),
+                    menuItem(menu: "ENDRESS"),
                   ],
                 ),
               ),
@@ -87,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Navigator.push(
                                   context,
                                   CupertinoPageRoute(
-                                    builder: (context) => Play(),
+                                    builder: (context) => Play(time: time,),
                                   ),
                                 );
                               },
@@ -178,19 +180,29 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // 画面中部のメニューの１つ
-  Widget menuItem({var time}) {
+  Widget menuItem({var menu}) {
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(left: 5, right: 5),
         child: ListTile(
           title: Text(
-            time,
+            menu,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 18
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            setState(() {
+              if (menu == "10s") {
+                time = 10.00;
+              } else if (menu == "60s") {
+                time = 60.00;
+              } else if (menu == "ENDRESS") {
+                time = -1.00;
+              }
+            });
+          },
         ),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.red),
