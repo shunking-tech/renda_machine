@@ -11,6 +11,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var time = 00.00;   // play.dartに渡す用の変数
   TextEditingController _ctrName = TextEditingController();    // 名前の入力フォームのコントローラー
+  var selectedMenu10 = true;
+  var selectedMenu60 = true;
+  var selectedMenuEndless = true;
+  var canTapMenu10 = true;
+  var canTapMenu60 = true;
+  var canTapMenuEndless = true;
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
                       child: Row(
                         children: <Widget>[
-                          menuItem(menu: "10s"),
-                          menuItem(menu: "60s"),
-                          menuItem(menu: "ENDRESS"),
+                          menuItem(menu: "10s", selected: selectedMenu10, canTap: canTapMenu10),
+                          menuItem(menu: "60s", selected: selectedMenu60, canTap: canTapMenu60),
+                          menuItem(menu: "ENDRESS", selected: selectedMenuEndless, canTap: canTapMenuEndless),
                         ],
                       ),
                     ),
@@ -220,11 +226,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // 画面中部のメニューの１つ
-  Widget menuItem({var menu}) {
+  Widget menuItem({var menu, var selected, var canTap}) {
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(left: 5, right: 5),
+//        color: selected ? Colors.white : Colors.red[100],
+        foregroundDecoration: BoxDecoration(
+          color: selected ? Colors.red.withOpacity(0.1) : null
+        ),
         child: ListTile(
+          enabled: canTap,
           title: Text(
             menu,
             textAlign: TextAlign.center,
@@ -236,10 +247,28 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(() {
               if (menu == "10s") {
                 time = 10.00;
+                selectedMenu10 = true;
+                selectedMenu60 = false;
+                selectedMenuEndless = false;
+                canTapMenu10 = false;
+                canTapMenu60 = true;
+                canTapMenuEndless = true;
               } else if (menu == "60s") {
                 time = 60.00;
+                selectedMenu10 = false;
+                selectedMenu60 = true;
+                selectedMenuEndless = false;
+                canTapMenu10 = true;
+                canTapMenu60 = false;
+                canTapMenuEndless = true;
               } else if (menu == "ENDRESS") {
                 time = -1.00;
+                selectedMenu10 = false;
+                selectedMenu60 = false;
+                selectedMenuEndless = true;
+                canTapMenu10 = true;
+                canTapMenu60 = true;
+                canTapMenuEndless = false;
               }
             });
           },
