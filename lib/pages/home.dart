@@ -12,13 +12,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
+// ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
+//    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
 
     return Scaffold(
       body: SingleChildScrollView(
           reverse: true,
           child: Container(
-            margin: EdgeInsets.only(bottom: bottomSpace),
+// ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
+//            margin: EdgeInsets.only(bottom: bottomSpace),
             child: Column(
               children: <Widget>[
                 Column(
@@ -50,6 +52,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
 
                     // ユーザー名
+                    Container(
+                      padding: EdgeInsets.only(left: 30, right: 30),
+                      height: 100,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: TextFormField()
+                          ),
+                          FlatButton(
+                            child: Text("ok"),
+                          )
+                        ],
+                      ),
+                    ),
+
+// ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
 //              Container(
 //                padding: EdgeInsets.only(left: 100,right: 100),
 //                child: TextField(
@@ -66,11 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
 //                  ),
 //                ),
 //              ),
-                    ListTile(
-                      onTap: () {
-                        _showModalPicker(context);
-                      },
-                    ),
+//                    ListTile(
+//                      onTap: () {
+//                        _showModalPicker(context);
+//                      },
+//                    ),
 
                     // メニュー
                     Container(
