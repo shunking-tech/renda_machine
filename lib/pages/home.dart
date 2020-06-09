@@ -36,65 +36,78 @@ class _MyHomePageState extends State<MyHomePage> {
 //    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
 
     return Scaffold(
-      body: SingleChildScrollView(
-          reverse: true,
-          child: Container(
+      body: Stack(
+        children: <Widget>[
+          // 背景画像
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("lib/assets/planets.jpg"),
+                  fit: BoxFit.cover,
+                )
+            )
+          ),
+
+          // 表示内容
+          SingleChildScrollView(
+              reverse: true,
+              child: Container(
 // ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
 //            margin: EdgeInsets.only(bottom: bottomSpace),
-            child: Column(
-              children: <Widget>[
-                Column(
+                child: Column(
                   children: <Widget>[
-                    // 画面上部の記録表示
-                    FutureBuilder(
-                      future: _blockShowRecord(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: LinearProgressIndicator(),
-                          );
-                        }
-
-                        return snapshot.data;
-                      },
-                    ),
-
-                    // タイトル
-                    Row(
+                    Column(
                       children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            "Renda\nMachine",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 40
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                        // 画面上部の記録表示
+                        FutureBuilder(
+                          future: _blockShowRecord(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: LinearProgressIndicator(),
+                              );
+                            }
 
-                    // ユーザー名
-                    Container(
-                      padding: EdgeInsets.only(left: 30, right: 30),
-                      height: 100,
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                              child: TextFormField(
-                                controller: _ctrName,
+                            return snapshot.data;
+                          },
+                        ),
+
+                        // タイトル
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                "Renda\nMachine",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 40
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        // ユーザー名
+                        Container(
+                          padding: EdgeInsets.only(left: 30, right: 30),
+                          height: 100,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                  child: TextFormField(
+                                    controller: _ctrName,
+                                  )
+                              ),
+                              FlatButton(
+                                onPressed: () async {
+                                  await SharePrefs().setName(name: _ctrName.text);
+                                  await SharePrefs().getName();
+                                },
+                                child: Text("ok"),
                               )
+                            ],
                           ),
-                          FlatButton(
-                            onPressed: () async {
-                              await SharePrefs().setName(name: _ctrName.text);
-                              await SharePrefs().getName();
-                            },
-                            child: Text("ok"),
-                          )
-                        ],
-                      ),
-                    ),
+                        ),
 
 // ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
 //              Container(
@@ -119,98 +132,101 @@ class _MyHomePageState extends State<MyHomePage> {
 //                      },
 //                    ),
 
-                    // メニュー
-                    Container(
-                      padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
-                      child: Row(
-                        children: <Widget>[
-                          menuItem(menu: "10s", selected: selectedMenu10, canTap: canTapMenu10),
-                          menuItem(menu: "60s", selected: selectedMenu60, canTap: canTapMenu60),
-                          menuItem(menu: "ENDRESS", selected: selectedMenuEndless, canTap: canTapMenuEndless),
-                        ],
-                      ),
-                    ),
-
-                    // PLAYボタン
-                    Container(
-                        padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                child: Container(
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.red),
-                                  ),
-                                  child: RaisedButton(
-                                    onPressed: (){
-                                      Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                          builder: (context) => Play(time: time, menu: selectedMenuName,),
-                                        ),
-                                      );
-                                    },
-                                    color: Colors.white,
-                                    child: Text(
-                                        "PLAY!"
-                                    ),
-                                  ),
-                                )
-                            )
-                          ],
-                        )
-                    ),
-
-                    // 画面下部
-                    Container(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      margin: EdgeInsets.only(top: 60),
-                      child: Row(
-                        children: <Widget>[
-                          // 作成者情報
-                          Expanded(
-                            child: Text(
-                              "FONT:\n"
-                                  "Isurus Labs\n\n"
-                                  "ICON:\n"
-                                  "Yukichi\n\n"
-                                  "SPECIAK THANKS:\n"
-                                  "Yukichi, @real_onesc\n\n"
-                                  "(c) 2018 sinProject inc.",
-                            ),
+                        // メニュー
+                        Container(
+                          padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
+                          child: Row(
+                            children: <Widget>[
+                              menuItem(menu: "10s", selected: selectedMenu10, canTap: canTapMenu10),
+                              menuItem(menu: "60s", selected: selectedMenu60, canTap: canTapMenu60),
+                              menuItem(menu: "ENDRESS", selected: selectedMenuEndless, canTap: canTapMenuEndless),
+                            ],
                           ),
+                        ),
 
-                          // ランキング
-                          Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                height: 200,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Leaderboard",
-                                      textAlign: TextAlign.start,
-                                    ),
-                                    Text(
-                                        "1."
+                        // PLAYボタン
+                        Container(
+                            padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Container(
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.red),
+                                      ),
+                                      child: RaisedButton(
+                                        onPressed: (){
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (context) => Play(time: time, menu: selectedMenuName,),
+                                            ),
+                                          );
+                                        },
+                                        color: Colors.white,
+                                        child: Text(
+                                            "PLAY!"
+                                        ),
+                                      ),
                                     )
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.red),
-                                ),
-                              )
-                          )
-                        ],
-                      ),
-                    ),
+                                )
+                              ],
+                            )
+                        ),
 
+                        // 画面下部
+                        Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          margin: EdgeInsets.only(top: 60),
+                          child: Row(
+                            children: <Widget>[
+                              // 作成者情報
+                              Expanded(
+                                child: Text(
+                                  "FONT:\n"
+                                      "Isurus Labs\n\n"
+                                      "ICON:\n"
+                                      "Yukichi\n\n"
+                                      "SPECIAK THANKS:\n"
+                                      "Yukichi, @real_onesc\n\n"
+                                      "(c) 2018 sinProject inc.",
+                                ),
+                              ),
+
+                              // ランキング
+                              Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    height: 200,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          "Leaderboard",
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Text(
+                                            "1."
+                                        )
+                                      ],
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red),
+                                    ),
+                                  )
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    )
                   ],
-                )        ],
-            ),
-          )
+                ),
+              )
+          ),
+        ],
       )
 
     );

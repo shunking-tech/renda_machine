@@ -22,88 +22,102 @@ class _PlayState extends State<Play> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: Stack(
         children: <Widget>[
-          Column(
-            children: <Widget>[
-
-              // 画面上部
-              Container(
-                padding: EdgeInsets.only(left: 10,right: 10),
-                child: Row(
-                  children: <Widget>[
-
-                    // 時間
-                    Expanded(
-                      child: Text(
-                        // タイマーの表示　ゼロ埋めがうまくいっていないけど、とりあえずよし
-                        ((widget.time * 100).ceil() / 100).toString().padRight(5, "0").padRight(5, "0"),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 50
-                        ),
-                      ),
-                    ),
-
-                    // 終了ボタン
-                    Expanded(
-                      child: Container(
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: Container(
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.red),
-                                    ),
-                                    child: RaisedButton(
-                                      onPressed: (){
-                                        // タップ回数の保存
-                                        SharePrefs().setRecord(menu: widget.menu, record: record);
-                                        // 確認
-                                        SharePrefs().getRecord(menu: widget.menu);
-                                        print(widget.menu);
-                                        // ページ戻る
-                                        Navigator.pop(context);
-                                      },
-                                      color: Colors.white,
-                                      child: Text(
-                                        "QUIT",
-                                        style: TextStyle(
-                                          fontSize: 50
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                              )
-                            ],
-                          )
-                      ),
-                    )
-                  ],
-                ),
-              ),
-
-              // 最初は案内　タップし始めたら回数　を表示
-              guideOrRecord(),
-
-              // タップ部分
-              Container(
-                padding: EdgeInsets.only(left: 10,right: 10),
-                child: Column(
-                  children: <Widget>[
-                    tapAreaRow(),
-                    tapAreaRow(),
-                    tapAreaRow(),
-                    tapAreaRow(),
-                  ],
-                )
+          // 背景画像
+          Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("lib/assets/planets.jpg"),
+                    fit: BoxFit.cover,
+                  )
               )
+          ),
 
+          // 表示内容
+          ListView(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  // 画面上部
+                  Container(
+                    padding: EdgeInsets.only(left: 10,right: 10),
+                    child: Row(
+                      children: <Widget>[
+
+                        // 時間
+                        Expanded(
+                          child: Text(
+                            // タイマーの表示　ゼロ埋めがうまくいっていないけど、とりあえずよし
+                            ((widget.time * 100).ceil() / 100).toString().padRight(5, "0").padRight(5, "0"),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 50
+                            ),
+                          ),
+                        ),
+
+                        // 終了ボタン
+                        Expanded(
+                          child: Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                      child: Container(
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.red),
+                                        ),
+                                        child: RaisedButton(
+                                          onPressed: (){
+                                            // タップ回数の保存
+                                            SharePrefs().setRecord(menu: widget.menu, record: record);
+                                            // 確認
+                                            SharePrefs().getRecord(menu: widget.menu);
+                                            print(widget.menu);
+                                            // ページ戻る
+                                            Navigator.pop(context);
+                                          },
+                                          color: Colors.white,
+                                          child: Text(
+                                            "QUIT",
+                                            style: TextStyle(
+                                                fontSize: 50
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                  )
+                                ],
+                              )
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  // 最初は案内　タップし始めたら回数　を表示
+                  guideOrRecord(),
+
+                  // タップ部分
+                  Container(
+                      padding: EdgeInsets.only(left: 10,right: 10),
+                      child: Column(
+                        children: <Widget>[
+                          tapAreaRow(),
+                          tapAreaRow(),
+                          tapAreaRow(),
+                          tapAreaRow(),
+                        ],
+                      )
+                  )
+
+                ],
+              ),
             ],
           ),
         ],
-      ),
+      )
     );
   }
 
