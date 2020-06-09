@@ -51,4 +51,16 @@ class SQL {
       return false;
     }
   }
+
+  // ユーザーidを取得する
+  Future getUserId({String name}) async {
+    final db = await DBProvider.db.database;
+    var res = await db.query(
+        "users",
+        where: "name = ?",
+        whereArgs: [name]
+    );
+
+    return res[0]["id"];
+  }
 }

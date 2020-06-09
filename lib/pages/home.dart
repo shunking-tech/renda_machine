@@ -131,10 +131,21 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                                   canPlay = false;
                                 } else {                  // 入力内容がある時
                                   canPlay = true;
+
+                                  // ユーザー登録
                                   SQL().saveName(name: _ctrName.text).then((value) {
-                                    print("成功");
+                                    print("ユーザー登録成功");
+
+                                    // ユーザーidを取得
+                                    SQL().getUserId(name: _ctrName.text).then((value) {
+                                      print("ユーザーidを取得成功");
+                                      print(value);
+                                    }).catchError((err) {
+                                      print("ユーザーidを取得失敗");
+                                      print(err);
+                                    });
                                   }).catchError((err){
-                                    print("失敗");
+                                    print("ユーザー登録失敗");
                                     print(err);
                                   });
                                 }
