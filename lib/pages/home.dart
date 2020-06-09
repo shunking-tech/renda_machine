@@ -113,37 +113,32 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 
                         // ユーザー名
                         Container(
-                          margin: EdgeInsets.only(left: 30, right: 30),
-                          color: Colors.white.withOpacity(0.0),
+                          margin: EdgeInsets.only(left: 70, right: 70),
                           height: 100,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: TextFormField(
-                                    controller: _ctrName,
-                                    decoration: InputDecoration(
-                                      fillColor: Colors.white,
-                                      filled: true
-                                    ),
-                                  )
-                              ),
-                              FlatButton(
-                                onPressed: () async {
-                                  await SharePrefs().setName(name: _ctrName.text);
-                                  var _name = await SharePrefs().getName();
+                          child: TextFormField(
+                            controller: _ctrName,
+                            textAlign: TextAlign.center,
 
-                                  setState(() {
-                                    if (_name.length == 0) {
-                                      canPlay = false;
-                                    } else {
-                                      canPlay = true;
-                                    }
-                                  });
-                                },
-                                child: Text("ok"),
-                              )
-                            ],
-                          ),
+                            // 入力が完了した時の処理
+                            onFieldSubmitted: (String n) async {
+                              // 入力内容を取得
+                              await SharePrefs().setName(name: _ctrName.text);
+                              var _name = await SharePrefs().getName();
+
+                              setState(() {
+                                if (_name.length == 0) {  // 入力内容がない時
+                                  canPlay = false;
+                                } else {                  // 入力内容がある時
+                                  canPlay = true;
+                                }
+                              });
+                            },
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Enter Nickname..."
+                            ),
+                          )
                         ),
 
 // ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
