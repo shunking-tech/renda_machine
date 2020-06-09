@@ -289,7 +289,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
             menu,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               color: Colors.white
             ),
           ),
