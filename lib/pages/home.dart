@@ -114,13 +114,17 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                         // ユーザー名
                         Container(
                           margin: EdgeInsets.only(left: 30, right: 30),
-                          color: Colors.white,
+                          color: Colors.white.withOpacity(0.0),
                           height: 100,
                           child: Row(
                             children: <Widget>[
                               Expanded(
                                   child: TextFormField(
                                     controller: _ctrName,
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.white,
+                                      filled: true
+                                    ),
                                   )
                               ),
                               FlatButton(
@@ -264,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
       child: Container(
         margin: EdgeInsets.only(left: 5, right: 5),
         foregroundDecoration: BoxDecoration(
-          color: selected ? Colors.red.withOpacity(0.1) : null
+          color: selected ? Colors.red.withOpacity(0.3) : null
         ),
         child: ListTile(
           enabled: canTap,
@@ -405,7 +409,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                               ),
                             );
                           },
-                          color: Colors.white.withOpacity(0.0),
+                          color: Colors.red.withOpacity(0.3),
                           child: Text(
                             "PLAY!",
                             style: TextStyle(
