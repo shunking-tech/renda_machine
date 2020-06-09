@@ -214,13 +214,24 @@ class _PlayState extends State<Play> {
           ),
         ),
       );
-    } else {   // ENDRESSの時の表示
+    } else if (widget.time == -1.00) {   // ENDRESSの時の表示
       return Expanded(
         child: Text(
           "NO LIMIT",
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 40,
+              color: Colors.white
+          ),
+        ),
+      );
+    } else {
+      return Expanded(
+        child: Text(
+          "00.00",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 50,
               color: Colors.white
           ),
         ),
