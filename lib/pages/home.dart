@@ -11,14 +11,40 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var time = 00.00;   // play.dartに渡す用の変数
   TextEditingController _ctrName = TextEditingController();    // 名前の入力フォームのコントローラー
-  var selectedMenu10 = true;
-  var selectedMenu60 = true;
-  var selectedMenuEndless = true;
+
+  // どのメニューが選択されているか
+  var selectedMenu10 = false;
+  var selectedMenu60 = false;
+  var selectedMenuEndless = false;
+
+  // メニューを選択できるかどうか
   var canTapMenu10 = true;
   var canTapMenu60 = true;
   var canTapMenuEndless = true;
 
+  // 選択中のメニュー
+  var selectedMenuName = "";
+
+  // 記録
+  var record10 = 0;
+  var record60 = 0;
+  var recordEndless = 0;
+
   @override
+
+  void initState() {
+    super.initState();
+
+    // 保存されている記録を表示する
+    setState(() {
+      SharePrefs().getRecord(menu: "10s").then((value) {
+        setState(() {
+          record10 = value;
+        });
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
 // ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
 //    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
@@ -34,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   children: <Widget>[
                     // 画面上部の記録表示
+
                     Container(
                       child: Row(
                         children: <Widget>[
@@ -132,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Navigator.push(
                                         context,
                                         CupertinoPageRoute(
-                                          builder: (context) => Play(time: time,),
+                                          builder: (context) => Play(time: time, menu: selectedMenuName,),
                                         ),
                                       );
                                     },
@@ -245,6 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           onTap: () {
             setState(() {
+              selectedMenuName = menu;
               if (menu == "10s") {
                 time = 10.00;
                 selectedMenu10 = true;

@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:renda_machine/util/shere_pref.dart';
 
 class Play extends StatefulWidget {
   // 選択された制限時間を受け取り
   double time;
-  Play({this.time});
+  var menu;
+  Play({this.time, this.menu});
 
   @override
   _PlayState createState() => _PlayState();
@@ -56,6 +58,12 @@ class _PlayState extends State<Play> {
                                     ),
                                     child: RaisedButton(
                                       onPressed: (){
+                                        // タップ回数の保存
+                                        SharePrefs().setRecord(menu: widget.menu, record: record);
+                                        // 確認
+                                        SharePrefs().getRecord(menu: widget.menu);
+                                        print(widget.menu);
+                                        // ページ戻る
                                         Navigator.pop(context);
                                       },
                                       color: Colors.white,
