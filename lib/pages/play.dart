@@ -46,17 +46,18 @@ class _PlayState extends State<Play> {
                       children: <Widget>[
 
                         // 時間
-                        Expanded(
-                          child: Text(
-                            // タイマーの表示　ゼロ埋めがうまくいっていないけど、とりあえずよし
-                            ((widget.time * 100).ceil() / 100).toString().padRight(5, "0").padRight(5, "0"),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 50,
-                              color: Colors.white
-                            ),
-                          ),
-                        ),
+                        _blockTimer(),
+//                        Expanded(
+//                          child: Text(
+//                            // タイマーの表示　ゼロ埋めがうまくいっていないけど、とりあえずよし
+//                            ((widget.time * 100).ceil() / 100).toString().padRight(5, "0").padRight(5, "0"),
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                              fontSize: 50,
+//                              color: Colors.white
+//                            ),
+//                          ),
+//                        ),
 
                         // 終了ボタン
                         Expanded(
@@ -200,19 +201,48 @@ class _PlayState extends State<Play> {
     }
   }
 
+  Widget _blockTimer() {
+    if (widget.time >= 0) {   // ENDRESS以外の時にタイマーを表示
+      return Expanded(
+        child: Text(
+          // タイマーの表示　ゼロ埋めがうまくいっていないけど、とりあえずよし
+          ((widget.time * 100).ceil() / 100).toString().padRight(5, "0").padRight(5, "0"),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 50,
+              color: Colors.white
+          ),
+        ),
+      );
+    } else {   // ENDRESSの時の表示
+      return Expanded(
+        child: Text(
+          "NO LIMIT",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 40,
+              color: Colors.white
+          ),
+        ),
+      );
+    }
+  }
+
 //  いづれかのボタンを押した時にタイマー開始
   _startTimer() {
-    Timer.periodic(
-        Duration(milliseconds: 1),
-            (Timer t) => setState(() {
-              widget.time -= 0.01;
+    if (widget.time >= 0) {   // ENDRESS以外の時にタイマーを動かす
+      Timer.periodic(
+          Duration(milliseconds: 1),
+              (Timer t) => setState(() {
+            widget.time -= 0.01;
 
-              // タイマーが０になったら
-              if (widget.time <= 0) {
-                t.cancel();       // タイマー止める
-                canTap = false;   // タップできなくする
-              }
-        })
-    );
+            // タイマーが０になったら
+            if (widget.time <= 0) {
+              t.cancel();       // タイマー止める
+              canTap = false;   // タップできなくする
+            }
+          })
+      );
+    }
   }
 }
