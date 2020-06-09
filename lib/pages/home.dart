@@ -166,52 +166,6 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 //                    ),
 
                         _blockPlay(),
-//                        // メニュー
-//                        Container(
-//                          padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
-//                          child: Row(
-//                            children: <Widget>[
-//                              menuItem(menu: "10s", selected: selectedMenu10, canTap: canTapMenu10),
-//                              menuItem(menu: "60s", selected: selectedMenu60, canTap: canTapMenu60),
-//                              menuItem(menu: "ENDRESS", selected: selectedMenuEndless, canTap: canTapMenuEndless),
-//                            ],
-//                          ),
-//                        ),
-//
-//                        // PLAYボタン
-//                        Container(
-//                            padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
-//                            child: Row(
-//                              children: <Widget>[
-//                                Expanded(
-//                                    child: Container(
-//                                      height: 70,
-//                                      decoration: BoxDecoration(
-//                                        border: Border.all(color: Colors.red),
-//                                      ),
-//                                      child: RaisedButton(
-//                                        onPressed: (){
-//                                          Navigator.push(
-//                                            context,
-//                                            CupertinoPageRoute(
-//                                              builder: (context) => Play(time: time, menu: selectedMenuName,),
-//                                            ),
-//                                          );
-//                                        },
-//                                        color: Colors.white.withOpacity(0.0),
-//                                        child: Text(
-//                                          "PLAY!",
-//                                          style: TextStyle(
-//                                            color: Colors.white,
-//                                            fontSize: 50
-//                                          ),
-//                                        ),
-//                                      ),
-//                                    )
-//                                )
-//                              ],
-//                            )
-//                        ),
 
                         // 画面下部
                         Container(
