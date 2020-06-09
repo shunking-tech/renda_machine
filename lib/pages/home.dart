@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:renda_machine/main.dart';
 import 'package:renda_machine/pages/play.dart';
 import 'package:renda_machine/util/shere_pref.dart';
 
@@ -8,7 +9,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with RouteAware {
   var time = 00.00;   // play.dartに渡す用の変数
   TextEditingController _ctrName = TextEditingController();    // 名前の入力フォームのコントローラー
 
@@ -29,6 +30,25 @@ class _MyHomePageState extends State<MyHomePage> {
   var record10 = "0";
   var record60 = "0";
   var recordEndless = "0";
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  // 上の画面がpopされて、この画面に戻ったときに呼ばれます
+  void didPopNext() {
+    print("aaa");
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
