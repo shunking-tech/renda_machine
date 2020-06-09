@@ -31,6 +31,9 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   var record60 = "0";
   var recordEndless = "0";
 
+  // 名前を入力した時のみPLAYできるように制御する変数
+  var canPlay = true;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -123,7 +126,15 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                               FlatButton(
                                 onPressed: () async {
                                   await SharePrefs().setName(name: _ctrName.text);
-                                  await SharePrefs().getName();
+                                  var _name = await SharePrefs().getName();
+
+                                  setState(() {
+                                    if (_name.length == 0) {
+                                      canPlay = false;
+                                    } else {
+                                      canPlay = true;
+                                    }
+                                  });
                                 },
                                 child: Text("ok"),
                               )
@@ -154,52 +165,53 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 //                      },
 //                    ),
 
-                        // メニュー
-                        Container(
-                          padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
-                          child: Row(
-                            children: <Widget>[
-                              menuItem(menu: "10s", selected: selectedMenu10, canTap: canTapMenu10),
-                              menuItem(menu: "60s", selected: selectedMenu60, canTap: canTapMenu60),
-                              menuItem(menu: "ENDRESS", selected: selectedMenuEndless, canTap: canTapMenuEndless),
-                            ],
-                          ),
-                        ),
-
-                        // PLAYボタン
-                        Container(
-                            padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    child: Container(
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.red),
-                                      ),
-                                      child: RaisedButton(
-                                        onPressed: (){
-                                          Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                              builder: (context) => Play(time: time, menu: selectedMenuName,),
-                                            ),
-                                          );
-                                        },
-                                        color: Colors.white.withOpacity(0.0),
-                                        child: Text(
-                                          "PLAY!",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 50
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                )
-                              ],
-                            )
-                        ),
+                        _blockPlay(),
+//                        // メニュー
+//                        Container(
+//                          padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
+//                          child: Row(
+//                            children: <Widget>[
+//                              menuItem(menu: "10s", selected: selectedMenu10, canTap: canTapMenu10),
+//                              menuItem(menu: "60s", selected: selectedMenu60, canTap: canTapMenu60),
+//                              menuItem(menu: "ENDRESS", selected: selectedMenuEndless, canTap: canTapMenuEndless),
+//                            ],
+//                          ),
+//                        ),
+//
+//                        // PLAYボタン
+//                        Container(
+//                            padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
+//                            child: Row(
+//                              children: <Widget>[
+//                                Expanded(
+//                                    child: Container(
+//                                      height: 70,
+//                                      decoration: BoxDecoration(
+//                                        border: Border.all(color: Colors.red),
+//                                      ),
+//                                      child: RaisedButton(
+//                                        onPressed: (){
+//                                          Navigator.push(
+//                                            context,
+//                                            CupertinoPageRoute(
+//                                              builder: (context) => Play(time: time, menu: selectedMenuName,),
+//                                            ),
+//                                          );
+//                                        },
+//                                        color: Colors.white.withOpacity(0.0),
+//                                        child: Text(
+//                                          "PLAY!",
+//                                          style: TextStyle(
+//                                            color: Colors.white,
+//                                            fontSize: 50
+//                                          ),
+//                                        ),
+//                                      ),
+//                                    )
+//                                )
+//                              ],
+//                            )
+//                        ),
 
                         // 画面下部
                         Container(
@@ -401,5 +413,64 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
         ],
       ),
     );
+  }
+
+  Widget _blockPlay() {
+    if (canPlay) {    // 名前入力されているときはメニューとPLAYボタンを表示する
+      return Column(
+        children: <Widget>[
+          // メニュー
+          Container(
+            padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
+            child: Row(
+              children: <Widget>[
+                menuItem(menu: "10s", selected: selectedMenu10, canTap: canTapMenu10),
+                menuItem(menu: "60s", selected: selectedMenu60, canTap: canTapMenu60),
+                menuItem(menu: "ENDRESS", selected: selectedMenuEndless, canTap: canTapMenuEndless),
+              ],
+            ),
+          ),
+
+          // PLAYボタン
+          Container(
+              padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                      child: Container(
+                        height: 70,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.red),
+                        ),
+                        child: RaisedButton(
+                          onPressed: (){
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => Play(time: time, menu: selectedMenuName,),
+                              ),
+                            );
+                          },
+                          color: Colors.white.withOpacity(0.0),
+                          child: Text(
+                            "PLAY!",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 50
+                            ),
+                          ),
+                        ),
+                      )
+                  )
+                ],
+              )
+          ),
+        ],
+      );
+    } else {    // 名前入力されていない時は何も表示しない
+      return Container(
+        height: 150,
+      );
+    }
   }
 }
