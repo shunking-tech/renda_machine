@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 
           // 表示内容
           SingleChildScrollView(
-              reverse: true,
+//              reverse: true,
               child: Container(
 // ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
 //            margin: EdgeInsets.only(bottom: bottomSpace),
