@@ -176,7 +176,7 @@ class _PlayState extends State<Play> {
               record.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 80,
                 color: Colors.white
               ),
             ),
