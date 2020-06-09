@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:renda_machine/main.dart';
 import 'package:renda_machine/pages/play.dart';
 import 'package:renda_machine/util/shere_pref.dart';
+import 'package:renda_machine/util/spl.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -130,6 +131,12 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                                   canPlay = false;
                                 } else {                  // 入力内容がある時
                                   canPlay = true;
+                                  SQL().saveName(name: _ctrName.text).then((value) {
+                                    print("成功");
+                                  }).catchError((err){
+                                    print("失敗");
+                                    print(err);
+                                  });
                                 }
                               });
                             },

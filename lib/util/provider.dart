@@ -30,8 +30,15 @@ class DBProvider {
           await db.execute(
               "CREATE TABLE users("
                   "id INTEGER PRIMARY KEY,"
-                  "name TEXT,"
-              ")"
+                  "name TEXT"
+              ");"
+              "CREATE TABLE record("
+                "id INTEGER PRIMARY KEY,"
+                "10s INTEGER,"
+                "60s INTEGER,"
+                "ENDRESS INTEGER,"
+                "user_id INTEGER"
+              ");"
           );
         }
     );

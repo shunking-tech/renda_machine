@@ -5,42 +5,50 @@ class SQL {
     final db = await DBProvider.db.database;
     var res;
 
+    // 新規のユーザーかどうか判断
+    var isNew = await isNewUser(name: name);
+    print(isNew);
+
+    if (isNew) {  // 新規のユーザーならDBに追加する
       res = await db.rawInsert(
           "INSERT into users "
-              "(title, pass_id, pass) "
+              "(name) "
               "VALUES "
               "('$name')"
       );
 
-//    if(widget.id == null){
-//      res = await db.rawInsert(
-//          "INSERT into users "
-//              "(title, pass_id, pass) "
-//              "VALUES "
-//              "('$name')"
-//      );
-//    } else {
-//      Map<String, dynamic> users = Map();
-//      users["name"] = name;
-//
-//      res = await db.update(
-//          "passwords",
-//          users,
-//          where: "id = ?",
-//          whereArgs: [widget.id]
-//      );
-//    }
-    return res;
+      // usersテーブルの中身を確認
+      var users = await getUser();
+      print(users);
 
+      return res;
+    }
+
+    // usersテーブルの中身を確認
+    var users = await getUser();
+    print(users);
   }
 
-  Future<List<Map<String, dynamic>>> searchUser({String name}) async {
+  // ユーザー全件取得
+  Future<List<Map<String, dynamic>>> getUser() async {
+    final db = await DBProvider.db.database;
+    var res = await db.query("users");
+    return res;
+  }
+
+  // 新規のユーザーかどうか判断
+  Future<bool> isNewUser({String name}) async {
     final db = await DBProvider.db.database;
     var res = await db.query(
       "users",
       where: "name = ?",
       whereArgs: [name]
     );
-    return res;
+
+    if (res.length == 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
