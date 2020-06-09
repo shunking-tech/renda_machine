@@ -25,26 +25,12 @@ class _MyHomePageState extends State<MyHomePage> {
   // 選択中のメニュー
   var selectedMenuName = "";
 
-  // 記録
-  var record10 = 0;
-  var record60 = 0;
-  var recordEndless = 0;
+  // 記録表示用の変数
+  var record10 = "0";
+  var record60 = "0";
+  var recordEndless = "0";
 
   @override
-
-  void initState() {
-    super.initState();
-
-    // 保存されている記録を表示する
-    setState(() {
-      SharePrefs().getRecord(menu: "10s").then((value) {
-        setState(() {
-          record10 = value;
-        });
-      });
-    });
-  }
-
   Widget build(BuildContext context) {
 // ユーザー名の入力欄を下から出すようにしたかったが、キーボードで隠れてしまう問題を解決できず保留
 //    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
@@ -60,15 +46,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   children: <Widget>[
                     // 画面上部の記録表示
+                    FutureBuilder(
+                      future: _blockShowRecord(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: LinearProgressIndicator(),
+                          );
+                        }
 
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          recordText(time: "10s", record: "0"),
-                          recordText(time: "60s", record: "0"),
-                          recordText(time: "ENDRESS", record: "0"),
-                        ],
-                      ),
+                        return snapshot.data;
+                      },
                     ),
 
                     // タイトル
@@ -257,7 +245,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(left: 5, right: 5),
-//        color: selected ? Colors.white : Colors.red[100],
         foregroundDecoration: BoxDecoration(
           color: selected ? Colors.red.withOpacity(0.1) : null
         ),
@@ -309,6 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // 名前入力欄を下から出したかったが、キーボードで隠れてしまうため断念
   void _showModalPicker(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
@@ -327,6 +315,38 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
       },
+    );
+  }
+
+  Future<Widget> _blockShowRecord() async {
+    // メニュー毎の記録を取得
+    var r10 = await SharePrefs().getRecord(menu: "10s");
+    var r60 = await SharePrefs().getRecord(menu: "60s");
+    var rEndress = await SharePrefs().getRecord(menu: "ENDRESS");
+
+    // 記録を数値から文字列に変換して代入　nullなら”0”を代入
+    record10 = r10.toString();
+    if (r10 == null) {
+      record10 = "0";
+    }
+    record60 = r60.toString() ?? "0";
+    if (r60 == null) {
+      record60 = "0";
+    }
+    recordEndless = rEndress.toString() ?? "0";
+    if (rEndress == null) {
+      recordEndless = "0";
+    }
+
+    // 記録を表示するウィジェットを返す
+    return Container(
+      child: Row(
+        children: <Widget>[
+          recordText(time: "10s", record: record10),
+          recordText(time: "60s", record: record60),
+          recordText(time: "ENDRESS", record: recordEndless),
+        ],
+      ),
     );
   }
 }
