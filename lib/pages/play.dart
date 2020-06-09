@@ -52,7 +52,8 @@ class _PlayState extends State<Play> {
                             ((widget.time * 100).ceil() / 100).toString().padRight(5, "0").padRight(5, "0"),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 50
+                              fontSize: 50,
+                              color: Colors.white
                             ),
                           ),
                         ),
@@ -78,11 +79,12 @@ class _PlayState extends State<Play> {
                                             // ページ戻る
                                             Navigator.pop(context);
                                           },
-                                          color: Colors.white,
+                                          color: Colors.red.withOpacity(0.2),
                                           child: Text(
                                             "QUIT",
                                             style: TextStyle(
-                                                fontSize: 50
+                                              fontSize: 50,
+                                              color: Colors.white
                                             ),
                                           ),
                                         ),
@@ -129,6 +131,7 @@ class _PlayState extends State<Play> {
         height: 100,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.red),
+          color: Colors.red.withOpacity(0.2)
         ),
         child: ListTile(
           enabled: canTap,
@@ -172,7 +175,8 @@ class _PlayState extends State<Play> {
               record.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 40
+                fontSize: 40,
+                color: Colors.white
               ),
             ),
           )
@@ -186,7 +190,8 @@ class _PlayState extends State<Play> {
               "Press any\nbutton to start",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 40
+                fontSize: 40,
+                color: Colors.white
               ),
             ),
           )

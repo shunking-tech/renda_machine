@@ -80,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 "Renda\nMachine",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 40
+                                  fontSize: 40,
+                                  color: Colors.white
                                 ),
                               ),
                             )
@@ -89,7 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                         // ユーザー名
                         Container(
-                          padding: EdgeInsets.only(left: 30, right: 30),
+                          margin: EdgeInsets.only(left: 30, right: 30),
+                          color: Colors.white,
                           height: 100,
                           child: Row(
                             children: <Widget>[
@@ -164,9 +166,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           );
                                         },
-                                        color: Colors.white,
+                                        color: Colors.white.withOpacity(0.0),
                                         child: Text(
-                                            "PLAY!"
+                                          "PLAY!",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 50
+                                          ),
                                         ),
                                       ),
                                     )
@@ -178,19 +184,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         // 画面下部
                         Container(
                           padding: EdgeInsets.only(left: 10, right: 10),
-                          margin: EdgeInsets.only(top: 60),
+                          margin: EdgeInsets.only(top: 30),
                           child: Row(
                             children: <Widget>[
                               // 作成者情報
                               Expanded(
                                 child: Text(
                                   "FONT:\n"
-                                      "Isurus Labs\n\n"
-                                      "ICON:\n"
-                                      "Yukichi\n\n"
-                                      "SPECIAK THANKS:\n"
-                                      "Yukichi, @real_onesc\n\n"
-                                      "(c) 2018 sinProject inc.",
+                                  "Isurus Labs\n\n"
+                                  "ICON:\n"
+                                  "Yukichi\n\n"
+                                  "SPECIAK THANKS:\n"
+                                  "Yukichi, @real_onesc\n\n"
+                                  "(c) 2018 sinProject inc.",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
 
@@ -205,9 +214,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Text(
                                           "Leaderboard",
                                           textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                         Text(
-                                            "1."
+                                          "1.",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         )
                                       ],
                                     ),
@@ -237,6 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Expanded(
       child: Column(
         children: <Widget>[
+          SizedBox(height: 30,),
           Text(
             time,
             style: TextStyle(
@@ -247,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Text(
             record,
             style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 20
             ),
           ),
@@ -270,7 +286,8 @@ class _MyHomePageState extends State<MyHomePage> {
             menu,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 18
+              fontSize: 18,
+              color: Colors.white
             ),
           ),
           onTap: () {
