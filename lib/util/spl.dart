@@ -1,6 +1,7 @@
 import 'package:renda_machine/util/provider.dart';
 
 class SQL {
+  // 名前保存
   Future<void> saveName({String name}) async {
     final db = await DBProvider.db.database;
     var res;
@@ -53,7 +54,7 @@ class SQL {
   }
 
   // ユーザーidを取得する
-  Future getUserId({String name}) async {
+  Future getNowUser({String name}) async {
     final db = await DBProvider.db.database;
     var res = await db.query(
         "users",
@@ -61,6 +62,31 @@ class SQL {
         whereArgs: [name]
     );
 
-    return res[0]["id"];
+    return res[0];
+  }
+
+  // タップ数を保存
+  Future<void> saveRecord({var menu, var record, int userId}) async {
+    final db = await DBProvider.db.database;
+    var res;
+    Map<String, dynamic> user = Map();
+
+    if (menu == "10s") {
+      user["tenSec"] = record;
+    }
+    if (menu == "60s") {
+      user["sixtySec"] = record;
+    }
+    if (menu == "ENDRESS") {
+      user["endless"] = record;
+    }
+    res = await db.update(
+      "users",
+      user,
+      where: "id = ?",
+      whereArgs: [userId]
+    );
+
+    return res;
   }
 }

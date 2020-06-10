@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:renda_machine/util/shere_pref.dart';
+import 'package:renda_machine/util/spl.dart';
 
 class Play extends StatefulWidget {
   // 選択された制限時間を受け取り
   double time;
   var menu;
-  Play({this.time, this.menu});
+  var userId;
+  Play({this.time, this.menu, this.userId});
 
   @override
   _PlayState createState() => _PlayState();
@@ -74,6 +76,12 @@ class _PlayState extends State<Play> {
                                           onPressed: (){
                                             // タップ回数の保存
                                             SharePrefs().setRecord(menu: widget.menu, record: record);
+                                            SQL().saveRecord(menu: widget.menu, record: record, userId: widget.userId).then((value) {
+                                              print("SQLでタップ数の保存成功");
+                                            }).catchError((err) {
+                                              print("SQLでタップ数の保存失敗");
+                                              print(err);
+                                            });
                                             // 確認
                                             SharePrefs().getRecord(menu: widget.menu);
                                             print(widget.menu);

@@ -20,8 +20,15 @@ class DBProvider {
   }
 
   initDB() async {
+    print("initDB");
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "renda_machine.db");
+    const scripts = {
+//      '2' : ["ALTER TABLE users ADD COLUMN tenSec INTEGER;"],
+//      '3' : ["ALTER TABLE users ADD COLUMN sixtySec INTEGER;"],
+//      '4' : ["ALTER TABLE users ADD COLUMN endless INTEGER;"],
+    };
+
     return await openDatabase(
         path,
         version: 1,
@@ -30,16 +37,20 @@ class DBProvider {
           await db.execute(
               "CREATE TABLE users("
                   "id INTEGER PRIMARY KEY,"
-                  "name TEXT"
-              ");"
-              "CREATE TABLE record("
-                "id INTEGER PRIMARY KEY,"
-                "10s INTEGER,"
-                "60s INTEGER,"
-                "ENDRESS INTEGER,"
-                "user_id INTEGER"
+                  "name TEXT,"
+                  "tenSec INTEGER,"
+                  "sixtySec INTEGER,"
+                  "endless INTEGER"
               ");"
           );
+        },
+        onUpgrade: (Database db, int oldVersion, int newVersion) async {
+          for (var i = oldVersion + 1; i <= newVersion; i++) {
+            var queries = scripts[i.toString()];
+            for (String query in queries) {
+              await db.execute(query);
+            }
+          }
         }
     );
   }

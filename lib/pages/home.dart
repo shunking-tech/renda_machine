@@ -15,7 +15,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   TextEditingController _ctrName = TextEditingController();    // 名前の入力フォームのコントローラー
 
   // どのメニューが選択されているか
-  var selectedMenu10 = false;
+  var selectedMenu10 = true;
   var selectedMenu60 = false;
   var selectedMenuEndless = false;
 
@@ -28,12 +28,15 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   var selectedMenuName = "";
 
   // 記録表示用の変数
-  var record10 = "0";
-  var record60 = "0";
-  var recordEndless = "0";
+  var record10 = "--";
+  var record60 = "--";
+  var recordEndless = "--";
 
   // 名前を入力した時のみPLAYできるように制御する変数
   var canPlay = false;
+
+  // ユーザーid
+  var userId = 0;
 
   @override
   void didChangeDependencies() {
@@ -51,7 +54,26 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   // 上の画面がpopされて、この画面に戻ったときに呼ばれます
   void didPopNext() {
     print("aaa");
-    setState(() {});
+//    setState(() {});
+    // ユーザー情報を取得
+    SQL().getNowUser(name: _ctrName.text).then((value) {
+      print("ユーザーidを取得成功");
+      print(value);
+      userId = value["id"];   // ユーザーidを変数に保持
+      if (value["tenSec"] != null) {
+        record10 = value["tenSec"].toString();
+      }
+      if (value["sixtySec"] != null) {
+        record60 = value["sixtySec"].toString();
+      }
+      if (value["endless"] != null) {
+        recordEndless = value["endless"].toString();
+      }
+      setState(() {});
+    }).catchError((err) {
+      print("ユーザーidを取得失敗");
+      print(err);
+    });
   }
 
   @override
@@ -129,6 +151,9 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                               setState(() {
                                 if (_name.length == 0) {  // 入力内容がない時
                                   canPlay = false;
+                                  record10 = "--";
+                                  record60 = "--";
+                                  recordEndless = "--";
                                 } else {                  // 入力内容がある時
                                   canPlay = true;
 
@@ -136,12 +161,29 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                                   SQL().saveName(name: _ctrName.text).then((value) {
                                     print("ユーザー登録成功");
 
-                                    // ユーザーidを取得
-                                    SQL().getUserId(name: _ctrName.text).then((value) {
+                                    // ユーザー情報を取得
+                                    SQL().getNowUser(name: _ctrName.text).then((value) {
                                       print("ユーザーidを取得成功");
                                       print(value);
+                                      userId = value["id"];   // ユーザーidを変数に保持
+                                      if (value["tenSec"] != null) {
+                                        record10 = value["tenSec"].toString();
+                                      } else {
+                                        record10 = "--";
+                                      }
+                                      if (value["sixtySec"] != null) {
+                                        record60 = value["sixtySec"].toString();
+                                      } else {
+                                        record60 = "--";
+                                      }
+                                      if (value["endless"] != null) {
+                                        recordEndless = value["endless"].toString();
+                                      } else {
+                                        recordEndless = "--";
+                                      }
+                                      setState(() {});
                                     }).catchError((err) {
-                                      print("ユーザーidを取得失敗");
+                                      print("ユーザー情報を取得失敗");
                                       print(err);
                                     });
                                   }).catchError((err){
@@ -361,18 +403,18 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
     var rEndress = await SharePrefs().getRecord(menu: "ENDRESS");
 
     // 記録を数値から文字列に変換して代入　nullなら”0”を代入
-    record10 = r10.toString();
-    if (r10 == null) {
-      record10 = "0";
-    }
-    record60 = r60.toString() ?? "0";
-    if (r60 == null) {
-      record60 = "0";
-    }
-    recordEndless = rEndress.toString() ?? "0";
-    if (rEndress == null) {
-      recordEndless = "0";
-    }
+//    record10 = r10.toString();
+//    if (r10 == null) {
+//      record10 = "0";
+//    }
+//    record60 = r60.toString() ?? "0";
+//    if (r60 == null) {
+//      record60 = "0";
+//    }
+//    recordEndless = rEndress.toString() ?? "0";
+//    if (rEndress == null) {
+//      recordEndless = "0";
+//    }
 
     // 記録を表示するウィジェットを返す
     return Container(
@@ -418,7 +460,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                builder: (context) => Play(time: time, menu: selectedMenuName,),
+                                builder: (context) => Play(time: time, menu: selectedMenuName,userId: userId,),
                               ),
                             );
                           },
