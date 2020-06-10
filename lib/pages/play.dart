@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import "package:intl/intl.dart";
 import 'package:renda_machine/util/shere_pref.dart';
 import 'package:renda_machine/util/spl.dart';
 
@@ -210,11 +211,12 @@ class _PlayState extends State<Play> {
   }
 
   Widget _blockTimer() {
+    var f = new NumberFormat("00.00");
+
     if (widget.time >= 0) {   // ENDRESS以外の時にタイマーを表示
       return Expanded(
         child: Text(
-          // タイマーの表示　ゼロ埋めがうまくいっていないけど、とりあえずよし
-          ((widget.time * 100).ceil() / 100).toString().padRight(5, "0").padRight(5, "0"),
+          f.format(widget.time),
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 50,

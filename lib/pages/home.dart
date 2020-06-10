@@ -11,7 +11,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with RouteAware {
-  var time = 00.00;   // play.dartに渡す用の変数
+  var time = 10.00;   // play.dartに渡す用の変数
   TextEditingController _ctrName = TextEditingController();    // 名前の入力フォームのコントローラー
 
   // どのメニューが選択されているか
