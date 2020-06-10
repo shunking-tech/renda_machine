@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   var recordEndless = "0";
 
   // 名前を入力した時のみPLAYできるように制御する変数
-  var canPlay = true;
+  var canPlay = false;
 
   @override
   void didChangeDependencies() {
