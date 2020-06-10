@@ -11,11 +11,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with RouteAware {
-  var time = 10.00;   // play.dartに渡す用の変数
+  var time = 10.00;   // play.dartに渡す用の変数  デフォルトで10秒が選ばれてる状態にする
   TextEditingController _ctrName = TextEditingController();    // 名前の入力フォームのコントローラー
 
   // どのメニューが選択されているか
-  var selectedMenu10 = true;
+  var selectedMenu10 = true;  // デフォルトで10秒が選ばれてる状態にする
   var selectedMenu60 = false;
   var selectedMenuEndless = false;
 
@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   var canTapMenuEndless = true;
 
   // 選択中のメニュー
-  var selectedMenuName = "";
+  var selectedMenuName = "10s";  // デフォルトで10秒が選ばれてる状態にする
 
   // 記録表示用の変数
   var record10 = "--";
