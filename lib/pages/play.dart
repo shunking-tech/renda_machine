@@ -19,6 +19,7 @@ class Play extends StatefulWidget {
 
 class _PlayState extends State<Play> {
   var isStart = false;   // スタートしているか判断
+  var isTimesUp = false;   // タイムアップのフラグ
   var record = 0;        // タップした回数
   var canTap = true;     // タップを許可するか判断
 
@@ -44,7 +45,7 @@ class _PlayState extends State<Play> {
                 children: <Widget>[
                   // 画面上部
                   Container(
-                    padding: EdgeInsets.only(left: 10,right: 10),
+                    padding: EdgeInsets.only(top: 10, left: 10, right: 10),
                     child: Row(
                       children: <Widget>[
 
@@ -111,19 +112,6 @@ class _PlayState extends State<Play> {
                   // 最初は案内　タップし始めたら回数　を表示
                   guideOrRecord(),
 
-                  // タップ部分
-//                  Container(
-//                      padding: EdgeInsets.only(left: 10,right: 10),
-//                      child: Column(
-//                        children: <Widget>[
-//                          tapAreaRow(),
-//                          tapAreaRow(),
-//                          tapAreaRow(),
-//                          tapAreaRow(),
-//                        ],
-//                      )
-//                  )
-
                 ],
               ),
             ],
@@ -181,6 +169,9 @@ class _PlayState extends State<Play> {
 
   // タップエリア
   Widget tapAreaRow() {
+    if (isTimesUp) {
+      return Container();
+    }
     return Row(
       children: <Widget>[
         tapAreaOne(),
@@ -195,35 +186,63 @@ class _PlayState extends State<Play> {
   Widget guideOrRecord() {
 
     if (isStart) {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              record.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 80,
-                color: Colors.white
+
+      // 制限時間が来た時
+      if (isTimesUp) {
+        return Container(
+          padding: EdgeInsets.only(top: 20),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  "Times up!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 80,
+                      color: Colors.white
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      }
+      return Container(
+        padding: EdgeInsets.only(top: 20),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                record.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 80,
+                    color: Colors.white
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        )
       );
     } else {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              "Press any\nbutton to start",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 40,
-                color: Colors.white
+      return Container(
+        padding: EdgeInsets.only(top: 20),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                "Press any\nbutton to start",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 40,
+                    color: Colors.white
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       );
+
     }
   }
 
@@ -278,9 +297,16 @@ class _PlayState extends State<Play> {
             if (widget.time <= 0) {
               t.cancel();       // タイマー止める
               canTap = false;   // タップできなくする
+              changeTimesUp();
             }
           })
       );
     }
+  }
+
+  void changeTimesUp() {
+    setState(() {
+      isTimesUp = true;   // タイムアップのフラグ
+    });
   }
 }
