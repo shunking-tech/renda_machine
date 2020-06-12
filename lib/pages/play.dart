@@ -171,6 +171,9 @@ class _PlayState extends State<Play> {
             }
 
             setState(() {
+              if (record == null) {
+                record = 0;
+              }
               record += 1;
             });
 
@@ -227,7 +230,7 @@ class _PlayState extends State<Play> {
           children: <Widget>[
             Expanded(
               child: Text(
-                record.toString(),
+                (record == null) ? "0" : record.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 80,
