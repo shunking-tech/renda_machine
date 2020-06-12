@@ -195,7 +195,7 @@ class _PlayState extends State<Play> {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  "Times up!",
+                  "${record.toString()}\nTime's Up!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 80,
