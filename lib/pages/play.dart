@@ -112,22 +112,39 @@ class _PlayState extends State<Play> {
                   guideOrRecord(),
 
                   // タップ部分
-                  Container(
-                      padding: EdgeInsets.only(left: 10,right: 10),
-                      child: Column(
-                        children: <Widget>[
-                          tapAreaRow(),
-                          tapAreaRow(),
-                          tapAreaRow(),
-                          tapAreaRow(),
-                        ],
-                      )
-                  )
+//                  Container(
+//                      padding: EdgeInsets.only(left: 10,right: 10),
+//                      child: Column(
+//                        children: <Widget>[
+//                          tapAreaRow(),
+//                          tapAreaRow(),
+//                          tapAreaRow(),
+//                          tapAreaRow(),
+//                        ],
+//                      )
+//                  )
 
                 ],
               ),
             ],
           ),
+
+          Align(
+            alignment: Alignment(0.0, 1.0),
+            child: Container(
+              height: 470,
+              padding: EdgeInsets.only(left: 10,right: 10),
+              child: Column(
+                children: <Widget>[
+                  tapAreaRow(),
+                  tapAreaRow(),
+                  tapAreaRow(),
+                  tapAreaRow(),
+                ],
+              )
+            ),
+          )
+
         ],
       )
     );
