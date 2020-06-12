@@ -53,7 +53,7 @@ class SQL {
     }
   }
 
-  // ユーザーidを取得する
+  // ユーザーnameでユーザー情報を取得する
   Future getNowUser({String name}) async {
     final db = await DBProvider.db.database;
     var res = await db.query(
@@ -62,6 +62,17 @@ class SQL {
         whereArgs: [name]
     );
 
+    return res[0];
+  }
+
+  // ユーザーidでユーザー情報を取得する
+  Future getNowUserById({var id}) async {
+    final db = await DBProvider.db.database;
+    var res = await db.query(
+        "users",
+        where: "id = ?",
+        whereArgs: [id]
+    );
     return res[0];
   }
 

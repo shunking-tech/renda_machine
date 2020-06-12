@@ -400,10 +400,13 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   }
 
   Future<Widget> _blockShowRecord() async {
+    // 現在のユーザー情報を取得
+    var nowUser = await SQL().getNowUser(name: _ctrName.text);
+
     // メニュー毎の記録を取得
-    var r10 = await SharePrefs().getRecord(menu: "10s");
-    var r60 = await SharePrefs().getRecord(menu: "60s");
-    var rEndress = await SharePrefs().getRecord(menu: "ENDRESS");
+    var r10 = nowUser["tenSec"];
+    var r60 = nowUser["sixtySec"];
+    var rEndress = nowUser["endless"];
 
     // 記録を数値から文字列に変換して代入　nullなら”0”を代入
 //    record10 = r10.toString();

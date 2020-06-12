@@ -24,6 +24,20 @@ class _PlayState extends State<Play> {
   var canTap = true;     // タップを許可するか判断
 
   @override
+
+  initState() {
+    super.initState();
+    SQL().getNowUserById(id: widget.userId).then((user) {
+      print("initState user取得成功");
+      if (widget.menu == "ENDRESS") {
+        record = user["endless"];
+      }
+      setState(() {});
+    }).catchError((err) {
+      print("initState user取得失敗");
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -185,7 +199,7 @@ class _PlayState extends State<Play> {
   // 最初は案内　タップし始めたら回数　を表示する箇所
   Widget guideOrRecord() {
 
-    if (isStart) {
+    if (isStart || widget.menu == "ENDRESS") {
 
       // 制限時間が来た時
       if (isTimesUp) {
