@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:intl/intl.dart";
 import 'package:renda_machine/util/shere_pref.dart';
+import 'package:renda_machine/util/sound.dart';
 import 'package:renda_machine/util/spl.dart';
 
 class Play extends StatefulWidget {
@@ -90,6 +91,7 @@ class _PlayState extends State<Play> {
                                         ),
                                         child: RaisedButton(
                                           onPressed: (){
+                                            Sound().playSelectMenu();
                                             // タップ回数の保存
                                             SharePrefs().setRecord(menu: widget.menu, record: record);
                                             SQL().saveRecord(menu: widget.menu, record: record, userId: widget.userId).then((value) {
@@ -325,5 +327,6 @@ class _PlayState extends State<Play> {
     setState(() {
       isTimesUp = true;   // タイムアップのフラグ
     });
+    Sound().playClear();
   }
 }

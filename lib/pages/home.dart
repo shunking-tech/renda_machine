@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:renda_machine/main.dart';
 import 'package:renda_machine/pages/play.dart';
 import 'package:renda_machine/util/shere_pref.dart';
+import 'package:renda_machine/util/sound.dart';
 import 'package:renda_machine/util/spl.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -340,6 +341,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
           ),
           onTap: () {
             setState(() {
+              Sound().playSelectMenu();
               selectedMenuName = menu;
               if (menu == "10s") {
                 time = 10.00;
@@ -465,6 +467,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                         ),
                         child: RaisedButton(
                           onPressed: (){
+                            Sound().playStart();
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
