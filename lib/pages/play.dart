@@ -164,9 +164,10 @@ class _PlayState extends State<Play> {
           border: Border.all(color: Colors.red),
           color: Colors.red.withOpacity(0.2)
         ),
-        child: ListTile(
-          enabled: canTap,
-          onTap: () {
+        child: RaisedButton(
+//          enabled: canTap,
+          color: Colors.red.withOpacity(0),
+          onPressed: isTimesUp ? null : () {
             //1回目のタップでのみタイマーをスタートさせる
             if (!isStart) {
               _startTimer();
